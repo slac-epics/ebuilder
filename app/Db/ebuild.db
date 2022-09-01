@@ -4,6 +4,7 @@
 #    INPA to INPU - The input records.
 #    NOA to NOU - The size of each input record.
 #    NOVA - The total size of the output record (sum of NOA to NOU).
+#    FLNK - The optional next record to process.
 #
 # A and B inputs are manditory, the others are optional.  All of the
 # inputs must be properly timestamped.
@@ -88,4 +89,5 @@ record(aSub, "$(NAME)")
     field(NOU,  "$(NOU=0)")
     field(FTVA, "DOUBLE")
     field(NOVA, "$(NOVA)")
+    field(FLNK, "$(FLNK=)")
 }
