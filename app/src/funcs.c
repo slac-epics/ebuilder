@@ -10,6 +10,7 @@
 #include<menuFtype.h>
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include<strings.h>
 
 #define LCLS1_FID_MAX        0x1ffe0
@@ -112,5 +113,32 @@ long eventBuild(struct aSubRecord *psub)
     return 0;
 }
 
+long descBuild(struct aSubRecord *psub)
+{
+    epicsInt8 **d = (epicsInt8 **)&psub->a;
+    int remain = psub->nova - 1;
+    epicsInt8 *o = (epicsInt8 *)psub->vala;
+
+    while (**d) {
+	int len = strlen(*d);
+	if (remain > len) {
+	    if (remain != psub->nova - 1) {
+		*o++ = ',';
+		remain--;
+	    }
+	    strcpy(o, *d);
+	    o += len;
+	    remain -= len;
+	} else
+	    break;
+	d++;
+	c++;
+    }
+    *o = 0;
+    psub->neva = o - (epicsInt8 *)psub->vala;
+    return 0;
+}
+
 epicsRegisterFunction(eventBuildInit);
 epicsRegisterFunction(eventBuild);
+epicsRegisterFunction(descBuild);
