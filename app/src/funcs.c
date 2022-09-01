@@ -132,7 +132,6 @@ long descBuild(struct aSubRecord *psub)
 	} else
 	    break;
 	d++;
-	c++;
     }
     *o = 0;
     psub->neva = o - (epicsInt8 *)psub->vala;
