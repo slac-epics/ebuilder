@@ -1,0 +1,91 @@
+#
+# Macros:
+#    NAME - The event builder record name.
+#    INPA to INPU - The input records.
+#    NOA to NOU - The size of each input record.
+#    NOVA - The total size of the output record (sum of NOA to NOU).
+#
+# A and B inputs are manditory, the others are optional.  All of the
+# inputs must be properly timestamped.
+#
+# The INP? fields must be *local* database links.  You can use an ai 
+# record with TSE = -2 to get a local record that copies any CA link
+# and its timestamp.
+#
+# This is a passive record, and must be processed whenever an input
+# changes.
+#
+
+record(aSub, "$(NAME)")
+{
+    field(INAM, "eventBuildInit")
+    field(SNAM, "eventBuild")
+    field(SCAN, "Passive")
+    field(EFLG, "ON CHANGE")
+    field(TSE,  "-2")
+    field(INPA, "$(INPA)")
+    field(FTA,  "DOUBLE")
+    field(NOA,  "$(NOA)")
+    field(INPB, "$(INPB)")
+    field(FTB,  "DOUBLE")
+    field(NOB,  "$(NOB)")
+    field(INPC, "$(INPC=)")
+    field(FTC,  "DOUBLE")
+    field(NOC,  "$(NOC=0)")
+    field(INPD, "$(INPD=)")
+    field(FTD,  "DOUBLE")
+    field(NOD,  "$(NOD=0)")
+    field(INPE, "$(INPE=)")
+    field(FTE,  "DOUBLE")
+    field(NOE,  "$(NOE=0)")
+    field(INPF, "$(INPF=)")
+    field(FTF,  "DOUBLE")
+    field(NOF,  "$(NOF=0)")
+    field(INPG, "$(INPG=)")
+    field(FTG,  "DOUBLE")
+    field(NOG,  "$(NOG=0)")
+    field(INPH, "$(INPH=)")
+    field(FTH,  "DOUBLE")
+    field(NOH,  "$(NOH=0)")
+    field(INPI, "$(INPI=)")
+    field(FTI,  "DOUBLE")
+    field(NOI,  "$(NOI=0)")
+    field(INPJ, "$(INPJ=)")
+    field(FTJ,  "DOUBLE")
+    field(NOJ,  "$(NOJ=0)")
+    field(INPK, "$(INPK=)")
+    field(FTK,  "DOUBLE")
+    field(NOK,  "$(NOK=0)")
+    field(INPL, "$(INPL=)")
+    field(FTL,  "DOUBLE")
+    field(NOL,  "$(NOL=0)")
+    field(INPM, "$(INPM=)")
+    field(FTM,  "DOUBLE")
+    field(NOM,  "$(NOM=0)")
+    field(INPN, "$(INPN=)")
+    field(FTN,  "DOUBLE")
+    field(NON,  "$(NON=0)")
+    field(INPO, "$(INPO=)")
+    field(FTO,  "DOUBLE")
+    field(NOO,  "$(NOO=0)")
+    field(INPP, "$(INPP=)")
+    field(FTP,  "DOUBLE")
+    field(NOP,  "$(NOP=0)")
+    field(INPQ, "$(INPQ=)")
+    field(FTQ,  "DOUBLE")
+    field(NOQ,  "$(NOQ=0)")
+    field(INPR, "$(INPR=)")
+    field(FTR,  "DOUBLE")
+    field(NOR,  "$(NOR=0)")
+    field(INPS, "$(INPS=)")
+    field(FTS,  "DOUBLE")
+    field(NOS,  "$(NOS=0)")
+    field(INPT, "$(INPT=)")
+    field(FTT,  "DOUBLE")
+    field(NOT,  "$(NOT=0)")
+    field(INPU, "$(INPU=)")
+    field(FTU,  "DOUBLE")
+    field(NOU,  "$(NOU=0)")
+    field(FTVA, "DOUBLE")
+    field(NOVA, "$(NOVA)")
+}

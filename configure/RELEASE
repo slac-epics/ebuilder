@@ -1,0 +1,14 @@
+# RELEASE
+# Defines location of external products
+# Run "gnumake clean uninstall install" in the application
+# top directory each time this file is changed.
+-include $(TOP)/configure/RELEASE.local
+
+# Check for valid macro definitions for module release directories
+# You can add tests here to make sure RELEASE.local defined valid
+# macros for all the module dependencies
+
+EPICS_BASE ?= Unspecified
+ifeq ($(wildcard $(EPICS_BASE)/include),)
+$(error Invalid EPICS_BASE: $(EPICS_BASE))
+endif
