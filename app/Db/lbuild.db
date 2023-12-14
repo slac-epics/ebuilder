@@ -98,3 +98,8 @@ record(waveform, $(NAME):DESC)
     field(FTVL, "CHAR")
     field(NELM, "2048")
 }
+
+# Do nothing!!
+record(longout, "$(NAME):MAKE_DESC")
+{
+}
