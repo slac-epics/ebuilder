@@ -7,7 +7,7 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install)
 # Archive files, templates, substitutions like this
 #
-DB += ebuild.db
+DB += ebuild.db lbuild.db
 
 include $(TOP)/configure/RULES
 #----------------------------------------

@@ -1,2 +1,4 @@
 function(eventBuildInit)
 function(eventBuild)
+function(latestBuildInit)
+function(latestBuild)

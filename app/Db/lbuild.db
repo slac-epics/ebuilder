@@ -1,0 +1,100 @@
+#
+# Macros:
+#    NAME - The latest builder record name.
+#    INPA to INPU - The input records.
+#    DSCA to DSCU - The input descriptions.
+#    OUT - The output link.
+#    FLNK - The optional next record to process.
+#
+# Input A is manditory, the others are optional.  All of the
+# inputs must be properly timestamped.
+#
+# The INP? fields must be *local* database links.  You can use an ai 
+# record with TSE = -2 to get a local record that copies any CA link
+# and its timestamp.
+#
+# This is a passive record, and must be processed whenever an input
+# changes.
+#
+
+record(aSub, "$(NAME)")
+{
+    field(INAM, "latestBuildInit")
+    field(SNAM, "latestBuild")
+    field(SCAN, "Passive")
+    field(EFLG, "ALWAYS")
+    field(TSE,  "-2")
+    field(INPA, "$(INPA)")
+    field(FTA,  "DOUBLE")
+    field(NOA,  "1")
+    field(INPB, "$(INPB=)")
+    field(FTB,  "DOUBLE")
+    field(NOB,  "1")
+    field(INPC, "$(INPC=)")
+    field(FTC,  "DOUBLE")
+    field(NOC,  "1")
+    field(INPD, "$(INPD=)")
+    field(FTD,  "DOUBLE")
+    field(NOD,  "1")
+    field(INPE, "$(INPE=)")
+    field(FTE,  "DOUBLE")
+    field(NOE,  "1")
+    field(INPF, "$(INPF=)")
+    field(FTF,  "DOUBLE")
+    field(NOF,  "1")
+    field(INPG, "$(INPG=)")
+    field(FTG,  "DOUBLE")
+    field(NOG,  "1")
+    field(INPH, "$(INPH=)")
+    field(FTH,  "DOUBLE")
+    field(NOH,  "1")
+    field(INPI, "$(INPI=)")
+    field(FTI,  "DOUBLE")
+    field(NOI,  "1")
+    field(INPJ, "$(INPJ=)")
+    field(FTJ,  "DOUBLE")
+    field(NOJ,  "1")
+    field(INPK, "$(INPK=)")
+    field(FTK,  "DOUBLE")
+    field(NOK,  "1")
+    field(INPL, "$(INPL=)")
+    field(FTL,  "DOUBLE")
+    field(NOL,  "1")
+    field(INPM, "$(INPM=)")
+    field(FTM,  "DOUBLE")
+    field(NOM,  "1")
+    field(INPN, "$(INPN=)")
+    field(FTN,  "DOUBLE")
+    field(NON,  "1")
+    field(INPO, "$(INPO=)")
+    field(FTO,  "DOUBLE")
+    field(NOO,  "1")
+    field(INPP, "$(INPP=)")
+    field(FTP,  "DOUBLE")
+    field(NOP,  "1")
+    field(INPQ, "$(INPQ=)")
+    field(FTQ,  "DOUBLE")
+    field(NOQ,  "1")
+    field(INPR, "$(INPR=)")
+    field(FTR,  "DOUBLE")
+    field(NOR,  "1")
+    field(INPS, "$(INPS=)")
+    field(FTS,  "DOUBLE")
+    field(NOS,  "1")
+    field(INPT, "$(INPT=)")
+    field(FTT,  "DOUBLE")
+    field(NOT,  "1")
+    field(INPU, "$(INPU=)")
+    field(FTU,  "DOUBLE")
+    field(NOU,  "1")
+    field(OUTA, "$(OUT=)")
+    field(FTVA, "DOUBLE")
+    field(NOVA, "1")
+    field(FLNK, "$(FLNK=)")
+}
+
+record(waveform, $(NAME):DESC)
+{
+    field(FTVL, "CHAR")
+    field(NELM, "2048")
+}

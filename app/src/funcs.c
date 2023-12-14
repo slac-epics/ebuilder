@@ -27,6 +27,11 @@ struct eb_pvt {
     int size;                           /* The total size of the data we are sending */
 };
 
+struct lb_pvt {
+    epicsTimeStamp ts;                  /* The most recent timestamp */
+    int cnt;                            /* How many inputs do we have? */
+};
+
 long eventBuildInit(struct aSubRecord *psub)
 {
     int i = 0, cnt = 0;
@@ -132,6 +137,7 @@ long eventBuild(struct aSubRecord *psub)
 	bcopy(pvt->data[lastidx], psub->vala, pvt->size * sizeof(double));
 	bcopy(&pvt->ts[lastidx], &psub->time, sizeof(epicsTimeStamp));
 	psub->neva = pvt->size;
+	psub->udf = 0;
     }
     return 0;
 }
@@ -161,6 +167,76 @@ long descBuild(struct aSubRecord *psub)
     return 0;
 }
 
+long latestBuildInit(struct aSubRecord *psub)
+{
+    int cnt = 0;
+    DBLINK      *inp = &psub->inpa;
+    epicsEnum16 *ft = &psub->fta;
+    epicsUInt32 *no = &psub->noa;
+    struct lb_pvt *pvt = NULL;
+
+    while (inp->type != CONSTANT) {
+	if (*ft != menuFtypeDOUBLE) {
+	    printf("%s: FT%c is not double?!?\n", psub->name, 'A' + cnt);
+	    return 0;
+	}
+	if (*no != 1) {
+	    printf("%s: NO%c is not 1?!?\n", psub->name, 'A' + cnt);
+	    return 0;
+	}
+	cnt++;
+	inp++;
+	ft++;
+    }    
+    if (psub->ftva != menuFtypeDOUBLE) {
+	printf("%s: FTVA is not double?!?\n", psub->name);
+	return 0;
+    }
+    if (psub->nova != 1) {
+	printf("%s: NOVA is not 1?!?\n", psub->name);
+	return 0;
+    }
+    /* OK, looks good.  Let's initialize our private structure! */
+    pvt = (struct lb_pvt *)malloc(sizeof(*pvt));
+    pvt->cnt = cnt;
+    bzero(&pvt->ts, sizeof(pvt->ts));
+    psub->dpvt = pvt;
+    return 0;
+}
+
+long latestBuild(struct aSubRecord *psub)
+{
+    struct lb_pvt *pvt = (struct lb_pvt *)psub->dpvt;
+    DBLINK      *inp = &psub->inpa;
+    epicsFloat64 **d = (epicsFloat64 **)&psub->a;
+    epicsUInt32 *no = &psub->noa;
+    int i;
+    double val = 0.0;
+
+    if (!pvt) {
+	printf("%s: not initialized?!?\n", psub->name);
+	return 0; /* Some problem, just skip! */
+    }
+    for (i = 0; i < pvt->cnt; i++, inp++, no++, d++) {
+	epicsTimeStamp ts;
+	dbGetTimeStamp(inp, &ts);
+	if (pvt->ts.secPastEpoch < ts.secPastEpoch ||
+	    (pvt->ts.secPastEpoch == ts.secPastEpoch &&
+	     pvt->ts.nsec < ts.nsec)) {
+	    /* This data is more recent! */
+	    pvt->ts = ts;
+	    val = **d;
+	}
+    }
+    bcopy(&pvt->ts, &psub->time, sizeof(epicsTimeStamp));
+    psub->neva = 1;
+    *(epicsFloat64 *)psub->vala = val;
+    psub->udf = 0;
+    return 0;
+}
+
 epicsRegisterFunction(eventBuildInit);
 epicsRegisterFunction(eventBuild);
 epicsRegisterFunction(descBuild);
+epicsRegisterFunction(latestBuildInit);
+epicsRegisterFunction(latestBuild);
