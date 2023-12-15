@@ -210,7 +210,7 @@ long latestBuild(struct aSubRecord *psub)
     DBLINK      *inp = &psub->inpa;
     epicsFloat64 **d = (epicsFloat64 **)&psub->a;
     epicsUInt32 *no = &psub->noa;
-    int i;
+    int i, cur = -1;
     double val = 0.0;
 
     if (!pvt) {
@@ -226,12 +226,16 @@ long latestBuild(struct aSubRecord *psub)
 	    /* This data is more recent! */
 	    pvt->ts = ts;
 	    val = **d;
+	    cur = i;
 	}
     }
-    bcopy(&pvt->ts, &psub->time, sizeof(epicsTimeStamp));
-    psub->neva = 1;
-    *(epicsFloat64 *)psub->vala = val;
-    psub->udf = 0;
+    if (cur != -1) {
+	bcopy(&pvt->ts, &psub->time, sizeof(epicsTimeStamp));
+	psub->neva = 1;
+	*(epicsFloat64 *)psub->vala = val;
+	*(epicsInt32 *)psub->valb = cur;
+	psub->udf = 0;
+    }
     return 0;
 }
 

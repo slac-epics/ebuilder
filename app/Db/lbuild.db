@@ -90,6 +90,9 @@ record(aSub, "$(NAME)")
     field(OUTA, "$(OUT=)")
     field(FTVA, "DOUBLE")
     field(NOVA, "1")
+    field(OUTB, "$(INDEX=)")
+    field(FTVB, "LONG")
+    field(NOVB, "1")
     field(FLNK, "$(FLNK=)")
 }
 
